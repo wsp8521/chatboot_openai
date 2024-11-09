@@ -9,7 +9,7 @@ interface = Component()
 
 #configuração da página
 st.set_page_config(
-    page_title='Chat Port',
+    page_title='Chat Porto do Itaqui',
     page_icon='📃'
 ) 
 
