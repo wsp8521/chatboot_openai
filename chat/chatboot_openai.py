@@ -9,7 +9,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.retrieval import create_retrieval_chain
 
-os.environ['OPENAI_API_KEY'] = os.getenv('TOKEN_OPENIA')
+os.environ['OPENAI_API_KEY'] = os.getenv('TOKEN_OPENAI')
 
 class ChatbootOpenai:
     def __init__(self):
@@ -36,7 +36,7 @@ class ChatbootOpenai:
         messages.append(('human', query))  # Usa a variável query para representar a entrada do usuário
 
         # Criação dos chains
-        llm = ChatOpenAI(model=model)
+        llm = ChatOpenAI(model=model, max_tokens=100)
         retriever = vector_store.as_retriever()
         prompt = ChatPromptTemplate(messages=messages)  # Cria o prompt com a lista de mensagens
         question_response_chain = create_stuff_documents_chain(llm=llm, prompt=prompt)
@@ -45,7 +45,8 @@ class ChatbootOpenai:
         # Obtenção da resposta
         response = chain.invoke({'input': query})
         return response.get('answer')  # Retorna a resposta da IA
-
+    
+    #Rags dos documentos
     def process_documents(self, upload_documents):
         vector_store = self.load_vector_store()
         if upload_documents:
@@ -61,8 +62,11 @@ class ChatbootOpenai:
                 vector_store = self.__create_vector_store(chunks=all_chunks, vector_store=vector_store)
                 return all_chunks
 
+
+    #lendo banco de dados vectores
     def load_vector_store(self):
         if os.path.exists(self.repository_db):
+            
             # Conecta ao Chroma se houver um db vector store
             vector_store = Chroma(
                 persist_directory=self.repository_db,
@@ -71,6 +75,8 @@ class ChatbootOpenai:
             return vector_store
         return None
 
+
+    #vectore store
     def __create_vector_store(self, chunks, vector_store=None):
         if vector_store:
             vector_store.add_documents(chunks)  # Adiciona documentos ao vector store existente
