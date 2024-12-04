@@ -37,7 +37,7 @@ class ChatbootOpenai:
         messages.append(('human', query))  # Usa a variável query para representar a entrada do usuário
 
         # Criação dos chains
-        llm = ChatOpenAI(model=model, max_tokens=100)
+        llm = ChatOpenAI(model=model, max_tokens=500)
         retriever = vector_store.as_retriever()
         prompt = ChatPromptTemplate(messages=messages)  # Cria o prompt com a lista de mensagens
         question_response_chain = create_stuff_documents_chain(llm=llm, prompt=prompt)
