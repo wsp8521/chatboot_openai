@@ -25,6 +25,7 @@ class ChatbootOpenai:
             Não faça suposições e não forneça informações não mencionadas no contexto.
             Responda de maneira detalhada, mas usando apenas os dados disponíveis no contexto.
             Exiba as resposta no formato de Markdown.
+            Sempre que hover informações tabulares, exiba a tabela.
             Contexto: {context}
             '''
 
